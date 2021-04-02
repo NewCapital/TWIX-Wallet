@@ -1,0 +1,12 @@
+{
+  "name": "twix-paper-wallets",
+  "version": "1.0.0",
+  "description": "TWIX paper wallet generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
