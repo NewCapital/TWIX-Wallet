@@ -46,28 +46,27 @@ sudo apt install npm
 
 1. Clone the project.
 
-
-    ```
+```
 git clone https://github.com/NewCapital/TWIX-Wallet.git
-    ```
+```
 
 2. Navigate to the project folder.
 
-    ```
+```
 cd TWIX-Wallet
-    ```
+```
 	
 3. Install the dependencies. This may take a while.
 
-    ```
+```
 npm install 
-    ```
+```
 
 4. Start the development server.
 
-    ```
+```
 npm run dev 
-    ```
+```
 
 5. Visit http://localhost:8080/#/ in your browser.
 ***
