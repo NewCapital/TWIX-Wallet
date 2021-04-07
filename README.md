@@ -46,29 +46,30 @@ It is recommended to install **npm**, the Node.js package manager. This can be d
    ```
 sudo apt install npm
    ```
+   
 1. Install nvm:
 
-   ```
+```
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-   ```
+```
 
 2. Logout and login to your server
 
-  ```
+```
 exit
-   ```
+```
 
 3. Update npm
 
-   ```
+```
 nvm install 12 tls
-   ```
+```
    
 4. Check version   
    
-   ```
+```
 node -v
-   ```
+```
 
 ### Wallet Installation Instructions
 
