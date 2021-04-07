@@ -51,8 +51,8 @@ export interface NetworkConfig {
 }
 
 const defaultTestnetNetworkConfig: NetworkConfig = {
-    explorerUrl: 'https://explorer.twix.live',
-    faucetUrl: 'http://faucet.twix.live',
+    explorerUrl: 'http://e.twix.live',
+    faucetUrl: 'https://f.twix.live',
     defaultNetworkType: 152,
     networkConfigurationDefaults: {
         maxMosaicDivisibility: 6,
