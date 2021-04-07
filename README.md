@@ -34,6 +34,10 @@ TWIX Wallet is available for Mac, Windows, Linux, and as a web application.
 ***
 ## Building instructions (web version)
 
+### Recomended
+
+Ubuntu 18.04 TLS, 4Gb RAM
+
 ### Requirements
 
 **Node.js 10 or 12 LTS** is required to run TWIX Wallet as a web application.
@@ -42,7 +46,31 @@ It is recommended to install **npm**, the Node.js package manager. This can be d
    ```
 sudo apt install npm
    ```
-### Instructions
+1. Install nvm:
+
+   ```
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+   ```
+
+2. Logout and login to your server
+
+  ```
+exit
+   ```
+
+3. Update npm
+
+   ```
+nvm install 12 tls
+   ```
+   
+4. Check version   
+   
+   ```
+node -v
+   ```
+
+### Wallet Installation Instructions
 
 1. Clone the project.
 
