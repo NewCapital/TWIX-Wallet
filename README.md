@@ -97,7 +97,26 @@ npm install
 npm run dev 
 ```
 
-5. Visit http://localhost:8080/#/ in your browser.
+5. Visit http://yourserverip:8080/#/ in your browser.
+
+6. Build production package
+
+```
+npm run build 
+```
+
+7. Install apache
+
+```
+apt install apache2 
+```
+
+8. Move the compiled application to the webserver location
+
+```
+mv dist/* /var/www/html
+```
+
 ***
 ## Feature status
 ### Features currently working
