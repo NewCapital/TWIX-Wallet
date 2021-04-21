@@ -40,7 +40,7 @@
                     <div v-if="mosaicInputsManager.hasFreeSlots()" class="form-row align-right action-link" style="margin-top: -0.1rem;">
                         <a
                             v-if="mosaicInputsManager.hasFreeSlots()"
-                            style="color: #44004e; margin-right: 0.1rem; font-size: 0.14rem;"
+                            style="color: #3d3d3d; margin-right: 0.1rem; font-size: 0.14rem;"
                             @click="addMosaicAttachmentInput"
                             >{{ $t('add_mosaic') }}</a
                         >
@@ -71,8 +71,8 @@
                         :hide-submit="hideSubmit"
                         :submit-button-text="submitButtonText"
                         :calculated-recommended-fee="calculatedRecommendedFee"
-                        :calculated-highest-fee="calculatedHighestFee"
                         :disable-submit="currentAccount.isMultisig"
+                        :size="transactionSize"
                         @button-clicked="handleSubmit(onSubmit)"
                         @input="onChangeMaxFee"
                     />
@@ -136,7 +136,6 @@ export default class FormTransferTransaction extends FormTransferTransactionTs {
     text-align: center;
     width: 120px;
 }
-
 /deep/.multisig_ban_container {
     padding-left: 0.7rem;
 }
