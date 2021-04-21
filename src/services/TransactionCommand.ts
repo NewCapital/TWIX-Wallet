@@ -159,7 +159,7 @@ export class TransactionCommand {
 
                 const aggregate = this.calculateSuggestedMaxFee(
                     AggregateTransaction.createBonded(
-                        Deadline.create(this.epochAdjustment),
+                        Deadline.create(this.epochAdjustment, 48),
                         signedInnerTransactions,
                         this.networkType,
                         [],
@@ -170,9 +170,9 @@ export class TransactionCommand {
                     map((signedAggregateTransaction) => {
                         const hashLock = this.calculateSuggestedMaxFee(
                             LockFundsTransaction.create(
-                                Deadline.create(this.epochAdjustment),
+                                Deadline.create(this.epochAdjustment, 6),
                                 new Mosaic(this.networkMosaic, UInt64.fromNumericString(this.networkConfiguration.lockedFundsPerAggregate)),
-                                UInt64.fromUint(1000),
+                                UInt64.fromUint(5760),
                                 signedAggregateTransaction,
                                 this.networkType,
                                 maxFee,
@@ -186,10 +186,7 @@ export class TransactionCommand {
     }
 
     public calculateSuggestedMaxFee(transaction: Transaction): Transaction {
-        const feeMultiplier =
-            this.resolveFeeMultipler(transaction) < this.transactionFees.minFeeMultiplier
-                ? this.transactionFees.minFeeMultiplier
-                : this.resolveFeeMultipler(transaction);
+        const feeMultiplier = this.resolveFeeMultipler(transaction);
         if (!feeMultiplier) {
             return transaction;
         }
@@ -201,18 +198,27 @@ export class TransactionCommand {
     }
 
     private resolveFeeMultipler(transaction: Transaction): number | undefined {
-        if (transaction.maxFee.compact() == 1) {
-            const fees =
-                this.transactionFees.medianFeeMultiplier < this.transactionFees.minFeeMultiplier
-                    ? this.transactionFees.minFeeMultiplier
-                    : this.transactionFees.medianFeeMultiplier;
+        // average
+        if (transaction.maxFee.compact() === 10) {
+            const fees = this.transactionFees.minFeeMultiplier + this.transactionFees.averageFeeMultiplier * 0.65;
             return fees || this.networkConfiguration.defaultDynamicFeeMultiplier;
         }
-        if (transaction.maxFee.compact() == 2) {
+        // fast
+        if (transaction.maxFee.compact() === 20) {
             const fees =
-                this.transactionFees.highestFeeMultiplier < this.transactionFees.minFeeMultiplier
+                this.transactionFees.averageFeeMultiplier < this.transactionFees.minFeeMultiplier
                     ? this.transactionFees.minFeeMultiplier
-                    : this.transactionFees.highestFeeMultiplier;
+                    : this.transactionFees.averageFeeMultiplier;
+            return fees || this.networkConfiguration.defaultDynamicFeeMultiplier;
+        }
+        // slowest
+        if (transaction.maxFee.compact() === 1) {
+            const fees = this.transactionFees.minFeeMultiplier;
+            return fees || this.networkConfiguration.defaultDynamicFeeMultiplier;
+        }
+        // slow
+        if (transaction.maxFee.compact() === 5) {
+            const fees = this.transactionFees.minFeeMultiplier + this.transactionFees.averageFeeMultiplier * 0.35;
             return fees || this.networkConfiguration.defaultDynamicFeeMultiplier;
         }
         return undefined;

@@ -50,7 +50,7 @@ export interface NetworkConfig {
     networkConfigurationDefaults: NetworkConfigurationDefaults;
 }
 
-const defaultTestnetNetworkConfig: NetworkConfig = {
+export const defaultTestnetNetworkConfig: NetworkConfig = {
     explorerUrl: 'http://e.twix.live',
     faucetUrl: 'https://f.twix.live',
     defaultNetworkType: 152,

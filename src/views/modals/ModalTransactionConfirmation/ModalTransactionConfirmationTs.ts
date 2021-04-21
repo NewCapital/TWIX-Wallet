@@ -468,7 +468,7 @@ export class ModalTransactionConfirmationTs extends Vue {
         const { ledgerService, currentPath, isOptinLedgerWallet, ledgerAccount, multisigAccount, stageTransactions, maxFee } = values;
         const aggregate = this.command.calculateSuggestedMaxFee(
             AggregateTransaction.createBonded(
-                Deadline.create(this.epochAdjustment),
+                Deadline.create(this.epochAdjustment, 48),
                 stageTransactions.map((t) => t.toAggregate(multisigAccount)),
                 this.networkType,
                 [],
@@ -482,9 +482,9 @@ export class ModalTransactionConfirmationTs extends Vue {
             });
         const hashLock = this.command.calculateSuggestedMaxFee(
             LockFundsTransaction.create(
-                Deadline.create(this.epochAdjustment),
+                Deadline.create(this.epochAdjustment, 6),
                 new Mosaic(this.networkMosaic, UInt64.fromNumericString(this.networkConfiguration.lockedFundsPerAggregate)),
-                UInt64.fromUint(1000),
+                UInt64.fromUint(5760),
                 signedAggregateTransaction,
                 this.networkType,
                 maxFee,
@@ -555,6 +555,7 @@ export class ModalTransactionConfirmationTs extends Vue {
             return {
                 ledgerService,
                 currentPath,
+                isOptinLedgerWallet,
                 networkType,
                 accountService,
                 signerPublicKey,
@@ -647,6 +648,10 @@ export class ModalTransactionConfirmationTs extends Vue {
                                   )
                                 : this.command.saveVrfKey(accountAddress, null);
                         }
+                        if (val.type === TransactionType.NODE_KEY_LINK) {
+                            this.$store.dispatch('harvesting/SET_POLLING_TRIALS', 1);
+                            this.command.updateHarvestingRequestStatus(accountAddress, false);
+                        }
                         this.$store.dispatch('harvesting/UPDATE_ACCOUNT_IS_PERSISTENT_DEL_REQ_SENT', {
                             accountAddress,
                             isPersistentDelReqSent: false,
@@ -668,6 +673,10 @@ export class ModalTransactionConfirmationTs extends Vue {
                         res.transaction.linkAction == LinkAction.Link && this.command.vrfPrivateKeyTemp
                             ? this.command.saveVrfKey(accountAddress, Crypto.encrypt(this.command.vrfPrivateKeyTemp, this.command.password))
                             : this.command.saveVrfKey(accountAddress, null);
+                    }
+                    if (res.transaction.type === TransactionType.NODE_KEY_LINK) {
+                        this.$store.dispatch('harvesting/SET_POLLING_TRIALS', 1);
+                        this.command.updateHarvestingRequestStatus(accountAddress, false);
                     }
                     if (res.transaction.type === TransactionType.TRANSFER) {
                         this.$store.dispatch('harvesting/UPDATE_ACCOUNT_IS_PERSISTENT_DEL_REQ_SENT', {
