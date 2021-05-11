@@ -53,7 +53,7 @@ export interface NetworkConfig {
 export const defaultTestnetNetworkConfig: NetworkConfig = {
     explorerUrl: 'http://e.twix.live',
     faucetUrl: 'https://f.twix.live',
-    defaultNetworkType: 104,
+    defaultNetworkType: 152,
     networkConfigurationDefaults: {
         maxMosaicDivisibility: 8,
         namespaceGracePeriodDuration: 60,
