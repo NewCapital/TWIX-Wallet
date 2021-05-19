@@ -10,7 +10,7 @@ const contextMenu = require('electron-context-menu');
 contextMenu({});
 
 // Set the path of the folder where the persisted data is stored
-electron.app.setPath('userData', path.join(electron.app.getPath('home'), '.symbol-desktop-wallet'))
+electron.app.setPath('userData', path.join(electron.app.getPath('home'), '.twix-wallet'))
 
 const iconUrlPath =
   process.platform === 'darwin' ? './dist/assets/logo.png' : `file://${__dirname}/../dist/assets/logo.png`
